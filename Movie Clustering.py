@@ -32,7 +32,7 @@ movies.head(10)
 movies['plot'] = movies['wiki_plot'].astype(str) +  "\n" + movies['imdb_plot'].astype(str)
 
 
-# In[ ]:
+# In[5]:
 
 
 #defining tokenize and snowball stemming method
@@ -55,7 +55,43 @@ def token_and_stem(para):
     return stemmed
 
 
-# In[ ]:
+# In[7]:
+
+
+sent_tokenized = [sent for sent in nltk.sent_tokenize("""
+                        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 
+                        The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. 
+                        Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. 
+                        Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                        """)]
+
+# Word Tokenize first sentence from sent_tokenized, save the result in a variable 'words_tokenized'
+words_tokenized = [word for word in nltk.word_tokenize(sent_tokenized[0])]
+
+filtered = [word for word in words_tokenized if re.search('[a-zA-Z]', word)]
+
+# Let's observe words after tokenization
+filtered
+
+
+# In[8]:
+
+
+stemmer = SnowballStemmer("english")
+
+# let's observe words without stemming
+print("Without stemming: ", filtered)
+
+
+# In[10]:
+
+
+stemmed_words = [stemmer.stem(word) for word in filtered]
+# now let's check out after stemming
+print("After stemming:   ", stemmed_words)
+
+
+# In[11]:
 
 
 #Creating TFIDFVectorizer
@@ -67,7 +103,7 @@ tfidf_vector = TfidfVectorizer(stop_words='english',
 plot_matrix = tfidf_vector.fit_transform([plot for plot in movies['plot']])
 
 
-# In[ ]:
+# In[12]:
 
 
 #clustering with KMeans
@@ -85,7 +121,7 @@ clusters = k_means.labels_.tolist()
 movies["cluster"] = clusters
 
 
-# In[ ]:
+# In[13]:
 
 
 #calculating similarity distance
@@ -95,11 +131,11 @@ from sklearn.metrics.pairwise import cosine_similarity
 sim_dis = 1 - cosine_similarity(plot_matrix)
 
 
-# In[ ]:
+# In[14]:
 
 
 import matplotlib.pyplot as plt
-
+get_ipython().run_line_magic('matplotlib', 'inline')
 
 from scipy.cluster.hierarchy import linkage, dendrogram
 
@@ -119,7 +155,7 @@ fig.set_size_inches(108, 21)
 plt.show()
 
 
-# In[ ]:
+# In[15]:
 
 
 #makind a dictionary that held the most similar movies based on the ordering of the movies_sim_dis_matrix
@@ -133,7 +169,7 @@ for movie in movies_sim_dis_matrix:
     
 
 
-# In[ ]:
+# In[16]:
 
 
 #Generally we find that movies that are count as a similar value for an earlier value
@@ -149,7 +185,7 @@ for a in similar_movies:
     similar_for_rated.append(similar_movies[a])
 
 
-# In[ ]:
+# In[19]:
 
 
 #predict method
@@ -187,13 +223,12 @@ def show_most_similar_movie():
     else:
         sel = 'Sorry No Movie Available'
     
-    return 'Most Similar movie to {} is: {}'.format(movie_title, sel)
+    return 'Most Similar movie to \'{}\' is: \'{}\''.format(movie_title, sel)
         
 
 
-# In[ ]:
+# In[20]:
 
 
 x = show_most_similar_movie()
-print(x)
-
+print(z)
