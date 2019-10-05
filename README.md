@@ -1,6 +1,5 @@
 # TEAM-B.-TASK-5
-The Machine learning task 4
-The task is to "find movie similarities based on their plots summaries"
+The Task is to "find movie similarities based on their plots summaries"
 
 To all movie enthusiast out there the aim of this model is to be able to recommend a movie with similar plots to the one you have in mind. obviously we all have a particular genre of movie we would like to watch be it sci-fi, horror, romance and the likes
 And more often than not there is usally a common factor so to say in these similar movies which can be seen in their plots.
